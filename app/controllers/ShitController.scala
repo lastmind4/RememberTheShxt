@@ -4,7 +4,7 @@ import javax.inject._
 
 import play.api.mvc._
 import play.libs.Json
-import services.BoxService
+import services.ShitService
 
 @Singleton
 class ShitController @Inject() extends Controller {
@@ -13,13 +13,12 @@ class ShitController @Inject() extends Controller {
   }
 
   def getShit(id: String) = Action {
-    BoxService.getBox(id) match {
+    ShitService.getShit(id) match {
       case None => NotFound("error")
       case Some(box) => Ok(box.name)
     }
   }
 
-  def addShit(name:String, comment:String) = {
-
-  }
+  //  def addShit(name: String, comment: String)
+  //  def removeShit(name: String, comment: String)
 }
