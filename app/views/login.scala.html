@@ -1,0 +1,15 @@
+@(shit: Form[CreateLoginForm])(implicit messages: Messages)
+
+@import helper._
+
+@main("Login") {
+	<script type='text/javascript' src='@routes.Assets.versioned("javascripts/index.js")'></script>
+
+  @form(routes.LoginController.login()) {
+		@inputText(shit("name"))
+		@inputText(shit("password"))
+		<div class="buttons">
+			<input type="submit" value="Login"/>
+		</div>
+	}
+}
