@@ -1,5 +1,11 @@
 package entity
 
-case class Shit(val id: String, val name: String, val comment: String) {
+import play.api.libs.json.Json
 
+
+case class Shit(id: Long, name: String, comment: String)
+
+object Shit {
+
+  implicit val shitFormat = Json.format[Shit]
 }

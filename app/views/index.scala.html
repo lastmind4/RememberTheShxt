@@ -1,5 +1,17 @@
-@()
+@(person: Form[CreatePersonForm])(implicit messages: Messages)
 
-@main("Welcome to Rts") {
-  <h1>Welcome to Rts!</h1>
+@import helper._
+
+@main("Welcome to Play") {
+	<script type='text/javascript' src='@routes.Assets.versioned("javascripts/index.js")'></script>
+
+	<ul id="shits"></ul>
+
+  @form(routes.ShitController.insertShit()) {
+		@inputText(person("name"))
+		@inputText(person("comment"))
+		<div class="buttons">
+			<input type="submit" value="Add Shit"/>
+		</div>
+	}
 }
