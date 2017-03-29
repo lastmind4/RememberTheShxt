@@ -1,33 +1,50 @@
 package controllers
 
-import javax.inject.Inject
-
-import dao.ShitDAO
-import entity.Shit
+import play.api._
+import play.api.mvc._
+import play.api.i18n._
 import play.api.data.Form
-import play.api.data.Forms.mapping
-import play.api.data.Forms.text
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.mvc.Action
-import play.api.mvc.Controller
-import views._
+import play.api.data.Forms._
+import play.api.data.validation.Constraints._
+import play.api.libs.json.Json
 
-class ShitController @Inject()(shitDao: ShitDAO) extends Controller {
+import scala.concurrent.{ExecutionContext, Future}
+import javax.inject._
 
-  def index = Action.async {
-    shitDao.all().map { case (shits) => Ok(html.index(shits)) }
+import dao.ShitDao
+
+
+class ShitController @Inject()(repo: ShitDao, val messagesApi: MessagesApi)(implicit ec: ExecutionContext) extends Controller with I18nSupport {
+
+  val shitForm: Form[CreateShitForm] = Form {
+    mapping(
+      "name" -> nonEmptyText,
+      "comment" -> nonEmptyText
+    )(CreateShitForm.apply)(CreateShitForm.unapply)
   }
 
-  val shitForm = Form(
-    mapping(
-      "id" -> text(),
-      "name" -> text(),
-      "comment" -> text()
-    )(Shit.apply)(Shit.unapply)
-  )
+  def index = Action {
+    Ok(views.html.index(shitForm))
+  }
 
-  def insertShit = Action.async { implicit request =>
-    val shit: Shit = shitForm.bindFromRequest.get
-    shitDao.insert(shit).map(_ => Redirect(routes.ShitController.index))
+  def addShit = Action.async { implicit request =>
+    shitForm.bindFromRequest.fold(
+      errorForm => {
+        Future.successful(Ok(views.html.index(errorForm)))
+      },
+      shit => {
+        repo.create(shit.name, shit.comment).map { _ =>
+          Redirect(routes.ShitController.index)
+        }
+      }
+    )
+  }
+
+  def getShits = Action.async {
+    repo.list().map { shit =>
+      Ok(Json.toJson(shit))
+    }
   }
 }
+
+case class CreateShitForm(name: String, comment: String)
