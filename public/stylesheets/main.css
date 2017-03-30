@@ -27,12 +27,12 @@ dl {
   padding: 10px;
 }
 
-#persons {
+#shits {
   .name {
     display: inline-block;
     width: 60px;
   }
-  .age {
+  .comment {
     display: inline-block;
   }
 }
