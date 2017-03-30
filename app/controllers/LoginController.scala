@@ -3,13 +3,12 @@ package controllers
 import javax.inject.Inject
 
 import dao.LoginDao
-import play.api.data.Forms._
 import play.api.data.Form
-import play.api.data.Forms.mapping
+import play.api.data.Forms.{mapping, _}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, Controller}
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 class LoginController @Inject()(repo: LoginDao, val messagesApi: MessagesApi)(implicit ec: ExecutionContext) extends Controller with I18nSupport {
 
@@ -24,17 +23,12 @@ class LoginController @Inject()(repo: LoginDao, val messagesApi: MessagesApi)(im
     Ok(views.html.index(loginFormat))
   }
 
-  def login = Action.async { implicit request =>
-    loginFormat.bindFromRequest.fold(
-      errorForm => {
-        Future.successful(Ok(views.html.index(errorForm)))
-      },
-      shit => {
-        repo.create(shit.name, shit.comment).map { _ =>
-          Redirect(routes.ShitController.index)
-        }
-      }
-    )
+  def login(name: String, password: String) = Action {
+    Redirect("/").withSession("user" -> "Admin")
+  }
+
+  def logout = Action {
+    Redirect("/").withNewSession
   }
 }
 

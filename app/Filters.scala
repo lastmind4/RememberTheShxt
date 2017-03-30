@@ -1,17 +1,6 @@
 import javax.inject.Inject
 
+import filters.{LoggingFilter, SessionFilter}
 import play.api.http.DefaultHttpFilters
 
-import play.filters.csrf.CSRFFilter
-import play.filters.headers.SecurityHeadersFilter
-import play.filters.hosts.AllowedHostsFilter
-
-//class Filters @Inject() (
-//  csrfFilter: CSRFFilter,
-//  allowedHostsFilter: AllowedHostsFilter,
-//  securityHeadersFilter: SecurityHeadersFilter
-//) extends DefaultHttpFilters(
-//  csrfFilter,
-//  allowedHostsFilter,
-//  securityHeadersFilter
-//)
+class Filters @Inject()(loggingFilter: LoggingFilter, sessionFilter: SessionFilter) extends DefaultHttpFilters(loggingFilter, sessionFilter)
