@@ -8,23 +8,24 @@ import play.api.data.Forms.{mapping, _}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, Controller}
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 class LoginController @Inject()(repo: LoginDao, val messagesApi: MessagesApi)(implicit ec: ExecutionContext) extends Controller with I18nSupport {
 
-  val loginFormat: Form[CreateShitForm] = Form {
+  val loginFormat: Form[CreateLoginForm] = Form {
     mapping(
       "name" -> nonEmptyText,
       "password" -> nonEmptyText
-    )(CreateShitForm.apply)(CreateShitForm.unapply)
+    )(CreateLoginForm.apply)(CreateLoginForm.unapply)
   }
 
   def index = Action {
-    Ok(views.html.index(loginFormat))
+    Ok(views.html.login(loginFormat))
   }
 
-  def login(name: String, password: String) = Action {
-    Redirect("/").withSession("user" -> "Admin")
+  def login = Action { implicit request =>
+    val form : CreateLoginForm  = loginFormat.bindFromRequest.get
+    Redirect("/").withSession("user" -> form.name)
   }
 
   def logout = Action {
