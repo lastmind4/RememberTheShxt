@@ -24,7 +24,7 @@ class LoginController @Inject()(repo: LoginDao, val messagesApi: MessagesApi)(im
   }
 
   def login = Action { implicit request =>
-    val form : CreateLoginForm  = loginFormat.bindFromRequest.get
+    val form = loginFormat.bindFromRequest.get
     Redirect("/").withSession("user" -> form.name)
   }
 
