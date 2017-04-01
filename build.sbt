@@ -11,4 +11,5 @@ libraryDependencies += filters
 libraryDependencies += jdbc
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.36"
 libraryDependencies += "com.typesafe.play" %% "play-slick" % "2.0.2"
+libraryDependencies += "com.typesafe.play" %% "play-mailer" % "5.0.0"
 

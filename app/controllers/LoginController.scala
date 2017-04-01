@@ -19,11 +19,30 @@ class LoginController @Inject()(repo: LoginDao, val messagesApi: MessagesApi)(im
     )(CreateLoginForm.apply)(CreateLoginForm.unapply)
   }
 
-  def index = Action {
+  val registerFormat: Form[CreateRegisterForm] = Form {
+    mapping(
+      "name" -> nonEmptyText,
+      "password" -> nonEmptyText,
+      "repeat" -> nonEmptyText
+    )(CreateRegisterForm.apply)(CreateRegisterForm.unapply) verifying("Password != Repeat!!!", fields => fields match {
+      case data => data.password == data.repeat
+    })
+  }
+
+  def login = Action {
     Ok(views.html.login(loginFormat))
   }
 
-  def login = Action { implicit request =>
+  def register = Action {
+    Ok(views.html.register(registerFormat))
+  }
+
+  def doRegister = Action { implicit request =>
+    val form = registerFormat.bindFromRequest.get
+    Redirect("/").withSession("user" -> form.name)
+  }
+
+  def doLogin = Action { implicit request =>
     val form = loginFormat.bindFromRequest.get
     Redirect("/").withSession("user" -> form.name)
   }
@@ -34,3 +53,5 @@ class LoginController @Inject()(repo: LoginDao, val messagesApi: MessagesApi)(im
 }
 
 case class CreateLoginForm(name: String, password: String)
+
+case class CreateRegisterForm(name: String, password: String, repeat: String)

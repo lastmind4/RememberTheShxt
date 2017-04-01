@@ -1,4 +1,4 @@
-@(shit: Form[CreateShitForm])(implicit messages: Messages)
+@(f: Form[CreateShitForm])(implicit messages: Messages)
 
 @import helper._
 
@@ -7,8 +7,8 @@
 	<ul id="shits"></ul>
 
   @form(routes.ShitController.addShit()) {
-		@inputText(shit("name"))
-		@inputText(shit("comment"))
+		@inputText(f("name"))
+		@inputText(f("comment"))
 		<div class="buttons">
 			<input type="submit" value="Add Shit"/>
 		</div>
