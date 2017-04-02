@@ -39,7 +39,7 @@ class LoginDao @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: 
     logins.result
   }
 
-  def login(name: String, password: String): Future[Option[Login]] = db.run {
-    logins.withFilter(_.name == name).withFilter(_.password == password).result.headOption
+  def login(name: String, password: String): Future[Seq[Login]] = db.run {
+    logins.filter(_.name === name).filter(_.password === password).result
   }
 }

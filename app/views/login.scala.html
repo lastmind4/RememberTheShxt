@@ -4,10 +4,10 @@
 
 @main("Login") {
 	<script type='text/javascript' src='@routes.Assets.versioned("javascripts/index.js")'></script>
-
+	<h2>Login</h2>
   @form(routes.LoginController.doLogin()) {
 		@inputText(f("name"))
-		@inputText(f("password"))
+		@inputPassword(f("password"))
 		<div class="buttons">
 			<input type="submit" value="Login"/>
 		</div>

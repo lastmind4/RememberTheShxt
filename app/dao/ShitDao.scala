@@ -9,7 +9,7 @@ import slick.driver.JdbcProfile
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class ShitDao @Inject() (dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
+class ShitDao @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
   private val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
@@ -33,6 +33,10 @@ class ShitDao @Inject() (dbConfigProvider: DatabaseConfigProvider)(implicit ec: 
       returning shits.map(_.id)
       into ((nameComment, id) => Shit(id, nameComment._1, nameComment._2))
       ) += (name, comment)
+  }
+
+  def remove(id: Long): Future[Int] = db.run {
+    shits.filter(_.id === id).delete
   }
 
   def list(): Future[Seq[Shit]] = db.run {
