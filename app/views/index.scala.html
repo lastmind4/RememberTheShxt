@@ -1,16 +1,37 @@
-@(f: Form[CreateShitForm])(implicit messages: Messages)
-
+@import entity._
 @import helper._
 
-@main("Welcome to Rts") {
-	<script type='text/javascript' src='@routes.Assets.versioned("javascripts/index.js")'></script>
-	<ul id="shits"></ul>
+@(shits: Seq[Shit], f: Form[CreateShitForm])(implicit messages: Messages)
 
-  @form(routes.ShitController.addShit()) {
-		@inputText(f("name"))
-		@inputText(f("comment"))
-		<div class="buttons">
-			<input type="submit" value="Add Shit"/>
-		</div>
-	}
+@main("Welcome to Rts") {
+    Shits:
+    <ul id="shits">
+        @for(shit <- shits){
+        <li>
+            <div>@shit.name</div>
+            <div>@shit.comment</div>
+            <div id="@shit.id" onclick="delShit(id)">Done</div>
+        </li>
+        }
+    </ul>
+
+    New Shit:
+    @form(routes.ShitController.addShit()) {
+        @inputText(f("name"))
+        @inputText(f("comment"))
+        <div class="buttons">
+            <input type="submit" value="Add Shit"/>
+        </div>
+    }
+<script>
+    var delShit = function(id){
+        $.ajax({
+            url: '/delShit/' + id,
+            type: 'DELETE',
+            success: function(result) {
+                location.reload();
+            }
+        });
+    }
+</script>
 }

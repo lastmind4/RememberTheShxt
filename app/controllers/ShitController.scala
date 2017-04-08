@@ -21,14 +21,16 @@ class ShitController @Inject()(repo: ShitDao, val messagesApi: MessagesApi)(impl
     )(CreateShitForm.apply)(CreateShitForm.unapply)
   }
 
-  def index = Action {
-    Ok(views.html.index(shitForm))
+  def index = Action.async {
+    repo.list().map {
+      shits => Ok(views.html.index(shits, shitForm))
+    }
   }
 
   def addShit = Action.async { implicit request =>
     shitForm.bindFromRequest.fold(
       errorForm => {
-        Future.successful(Ok(views.html.index(errorForm)))
+        Future.successful(Redirect(routes.ShitController.index))
       },
       shit => {
         repo.create(shit.name, shit.comment).map { _ =>
@@ -36,6 +38,12 @@ class ShitController @Inject()(repo: ShitDao, val messagesApi: MessagesApi)(impl
         }
       }
     )
+  }
+
+  def delShit(id: Long) = Action.async {
+    repo.remove(id).map { result =>
+      Ok(result.toString)
+    }
   }
 
   def getShits = Action.async {
