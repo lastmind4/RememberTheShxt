@@ -35,6 +35,10 @@ class ShitDao @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: E
       ) += (name, comment)
   }
 
+  def edit(id: Long, shit: Shit): Future[Int] = db.run {
+    shits.filter(_.id === id).update(shit)
+  }
+
   def remove(id: Long): Future[Int] = db.run {
     shits.filter(_.id === id).delete
   }

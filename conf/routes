@@ -6,6 +6,7 @@
 ## Web
 GET     /                           controllers.ShitController.index
 POST    /addShit                    controllers.ShitController.addShit
+POST    /editShit/:id               controllers.ShitController.editShit(id:Long)
 DELETE  /delShit/:id                controllers.ShitController.delShit(id:Long)
 GET     /login                      controllers.LoginController.login
 POST    /login                      controllers.LoginController.doLogin
