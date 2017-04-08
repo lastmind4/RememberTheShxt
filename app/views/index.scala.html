@@ -1,7 +1,7 @@
 @import entity._
 @import helper._
 
-@(shits: Seq[Shit], f: Form[ShitForm])(implicit messages: Messages)
+@(shits: Seq[Shit], f: Form[ShitForm])
 
 @main("Welcome to Rts") {
     Shits:
@@ -18,13 +18,13 @@
     </ul>
 
     New Shit:
-    @form(routes.ShitController.addShit()) {
-        @inputText(f("name"))
-        @inputText(f("comment"))
-        <div class="buttons">
-            <input type="submit" value="Add Shit"/>
-        </div>
-    }
+
+    <form action="/addShit" method="POST">
+        <div>Name:   <input name="name" type="text"/></div>
+        <div>Comment:<input name="comment" type="text"/></div>
+        <input type="submit" value="Add Shit"/>
+    </form>
+
 <script>
     var editShit = function(id){
         $("#name_field_" + id).attr("contenteditable", true);

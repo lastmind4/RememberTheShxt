@@ -6,12 +6,12 @@ import dao.LoginDao
 import entity.Login
 import play.api.data.Form
 import play.api.data.Forms.{mapping, _}
-import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, Controller}
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class LoginController @Inject()(loginDao: LoginDao, val messagesApi: MessagesApi)(implicit ec: ExecutionContext) extends Controller with I18nSupport {
+class LoginController @Inject()(loginDao: LoginDao) extends Controller {
 
   val loginFormat: Form[CreateLoginForm] = Form {
     mapping(

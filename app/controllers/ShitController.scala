@@ -6,14 +6,14 @@ import dao.ShitDao
 import entity.Shit
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n._
 import play.api.libs.json.Json
 import play.api.mvc._
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class ShitController @Inject()(repo: ShitDao, val messagesApi: MessagesApi)(implicit ec: ExecutionContext) extends Controller with I18nSupport {
+class ShitController @Inject()(repo: ShitDao) extends Controller {
 
   val shitForm: Form[ShitForm] = Form {
     mapping(

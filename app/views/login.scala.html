@@ -1,15 +1,13 @@
-@(f: Form[CreateLoginForm])(implicit messages: Messages)
+@(f: Form[CreateLoginForm])
 
 @import helper._
 
 @main("Login") {
 	<script type='text/javascript' src='@routes.Assets.versioned("javascripts/index.js")'></script>
 	<h2>Login</h2>
-  @form(routes.LoginController.doLogin()) {
-		@inputText(f("name"))
-		@inputPassword(f("password"))
-		<div class="buttons">
-			<input type="submit" value="Login"/>
-		</div>
-	}
+	<form action="/login" method="POST">
+        <div>Name :    <input name="name" type="text"/></div>
+        <div>Password: <input name="password" type="password"/></div>
+		<input type="submit" value="Login"/>
+	</form>
 }
