@@ -34,13 +34,15 @@
     }
 
     var delShit = function(id){
-        $.ajax({
-            url: '/delShit/' + id,
-            type: 'DELETE',
-            success: function(result) {
-                location.reload();
-            }
-        });
+        if (confirm("Mark this as done?")) {
+            $.ajax({
+                url: '/delShit/' + id,
+                type: 'DELETE',
+                success: function(result) {
+                    location.reload();
+                }
+            });
+        }
     }
 
     var updateShit = function(id) {
