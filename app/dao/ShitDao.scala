@@ -21,18 +21,20 @@ class ShitDao @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: E
 
     def name = column[String]("name")
 
+    def category = column[String]("category")
+
     def comment = column[String]("comment")
 
-    def * = (id, name, comment) <> ((Shit.apply _).tupled, Shit.unapply)
+    def * = (id, name, category, comment) <> ((Shit.apply _).tupled, Shit.unapply)
   }
 
   private val shits = TableQuery[ShitTable]
 
-  def create(name: String, comment: String): Future[Shit] = db.run {
-    (shits.map(p => (p.name, p.comment))
+  def create(name: String, category: String, comment: String): Future[Shit] = db.run {
+    (shits.map(p => (p.name, p.category, p.comment))
       returning shits.map(_.id)
-      into ((nameComment, id) => Shit(id, nameComment._1, nameComment._2))
-      ) += (name, comment)
+      into ((data, id) => Shit(id, data._1,, data._2, data._3))
+      ) += (name, category, comment)
   }
 
   def edit(id: Long, shit: Shit): Future[Int] = db.run {

@@ -18,6 +18,7 @@ class ShitController @Inject()(repo: ShitDao) extends Controller {
   val shitForm: Form[ShitForm] = Form {
     mapping(
       "name" -> nonEmptyText,
+      "category" -> text,
       "comment" -> nonEmptyText
     )(ShitForm.apply)(ShitForm.unapply)
   }
@@ -32,7 +33,7 @@ class ShitController @Inject()(repo: ShitDao) extends Controller {
     shitForm.bindFromRequest.fold(
       _ => Future.successful(Redirect(routes.ShitController.index)),
       shit => {
-        repo.create(shit.name, shit.comment).map { _ =>
+        repo.create(shit.name, shit.category, shit.comment).map { _ =>
           Redirect(routes.ShitController.index)
         }
       }
@@ -43,7 +44,7 @@ class ShitController @Inject()(repo: ShitDao) extends Controller {
     shitForm.bindFromRequest.fold(
       _ => Future.successful(Redirect(routes.ShitController.index)),
       shit => {
-        repo.edit(id, Shit(id, shit.name, shit.comment)).map { result =>
+        repo.edit(id, Shit(id, shit.name, shit.category, shit.comment)).map { result =>
           Ok(result.toString)
         }
       }
@@ -63,4 +64,4 @@ class ShitController @Inject()(repo: ShitDao) extends Controller {
   }
 }
 
-case class ShitForm(name: String, comment: String)
+case class ShitForm(name: String, category: String, comment: String)
