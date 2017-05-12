@@ -21,7 +21,7 @@ class LoginController @Inject()(loginDao: LoginDao) extends Controller {
   }
 
   def login = Action {
-    Ok(views.html.login(loginFormat))
+    Redirect(routes.Assets.versioned("htmls/login.html"))
   }
 
   def doLogin = Action.async { implicit request =>

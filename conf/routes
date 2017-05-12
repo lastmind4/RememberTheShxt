@@ -12,7 +12,7 @@ POST    /login                      controllers.LoginController.doLogin
 GET     /api/shits                  controllers.ShitController.getShits
 POST    /api/addShit                controllers.ShitController.addShit
 POST    /api/editShit/:id           controllers.ShitController.editShit(id:Long)
-DELETE     /api/delShit/:id            controllers.ShitController.delShit(id:Long)
+DELETE  /api/delShit/:id            controllers.ShitController.delShit(id:Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /public/*file               controllers.Assets.versioned(path="/public", file: Asset)
