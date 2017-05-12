@@ -18,7 +18,7 @@ class ShitController @Inject()(repo: ShitDao) extends Controller {
   val shitForm: Form[ShitForm] = Form {
     mapping(
       "name" -> nonEmptyText,
-      "category" -> nonEmptyText,
+      "category" -> text,
       "comment" -> nonEmptyText
     )(ShitForm.apply)(ShitForm.unapply)
   }

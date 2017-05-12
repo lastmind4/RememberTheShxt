@@ -11,4 +11,3 @@ libraryDependencies += filters
 libraryDependencies += jdbc
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.36"
 libraryDependencies += "com.typesafe.play" %% "play-slick" % "2.0.2"
-enablePlugins(JettyPlugin)
