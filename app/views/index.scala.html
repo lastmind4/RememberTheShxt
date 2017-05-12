@@ -9,6 +9,7 @@
         @for(shit <- shits){
         <li>
             <div id="name_field_@shit.id">@shit.name</div>
+            <div id="category_field_@shit.id">@shit.category</div>
             <div id="comment_field_@shit.id">@shit.comment</div>
             <div id="edit_@shit.id" style="display:inline" onclick="editShit(@shit.id)">Edit</div>
             <div id="del_@shit.id"  style="display:inline" onclick="delShit(@shit.id)">Done</div>
@@ -21,6 +22,7 @@
 
     <form action="/addShit" method="POST">
         <div>Name:   <input name="name" type="text"/></div>
+        <div>Category:<input name="category" type="text"/></div>
         <div>Comment:<input name="comment" type="text"/></div>
         <input type="submit" value="Add Shit"/>
     </form>
@@ -28,6 +30,7 @@
 <script>
     var editShit = function(id){
         $("#name_field_" + id).attr("contenteditable", true);
+        $("#category_field_" + id).attr("contenteditable", true);
         $("#comment_field_" + id).attr("contenteditable", true);
         $("#edit_" + id).text("Update");
         $("#edit_" + id).attr("onclick", "updateShit(" + id + ")");
@@ -47,11 +50,13 @@
 
     var updateShit = function(id) {
         $("#name_field_" + id).attr("contenteditable", false);
+        $("#category_field_" + id).attr("contenteditable", false);
         $("#comment_field_" + id).attr("contenteditable", false);
         $("#edit_" + id).text("Edit");
         $("#edit_" + id).attr("onclick", "editShit(" + id + ")");
         var shit = {
             name:$("#name_field_" + id).html(),
+            category:$("#category_field_" + id).html(),
             comment:$("#comment_field_" + id).html()
         };
         $.ajax({

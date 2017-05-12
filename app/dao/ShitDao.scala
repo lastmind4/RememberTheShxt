@@ -33,7 +33,7 @@ class ShitDao @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: E
   def create(name: String, category: String, comment: String): Future[Shit] = db.run {
     (shits.map(p => (p.name, p.category, p.comment))
       returning shits.map(_.id)
-      into ((data, id) => Shit(id, data._1,, data._2, data._3))
+      into ((data, id) => Shit(id, data._1, data._2, data._3))
       ) += (name, category, comment)
   }
 
