@@ -19,14 +19,12 @@ class ShitController @Inject()(repo: ShitDao) extends Controller {
     mapping(
       "name" -> nonEmptyText,
       "category" -> text,
-      "comment" -> nonEmptyText
+      "comment" -> text
     )(ShitForm.apply)(ShitForm.unapply)
   }
 
-  def index = Action.async {
-    repo.list().map {
-      shits => Ok(views.html.index(shits, shitForm))
-    }
+  def index = Action {
+    Redirect(routes.Assets.versioned("htmls/index.html"))
   }
 
   def addShit = Action.async { implicit request =>

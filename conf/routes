@@ -5,14 +5,14 @@
 
 ## Web
 GET     /                           controllers.ShitController.index
-POST    /addShit                    controllers.ShitController.addShit
-POST    /editShit/:id               controllers.ShitController.editShit(id:Long)
-DELETE  /delShit/:id                controllers.ShitController.delShit(id:Long)
 GET     /login                      controllers.LoginController.login
 POST    /login                      controllers.LoginController.doLogin
 
 ## REST API
 GET     /api/shits                  controllers.ShitController.getShits
+POST    /api/addShit                controllers.ShitController.addShit
+POST    /api/editShit/:id           controllers.ShitController.editShit(id:Long)
+DELETE     /api/delShit/:id            controllers.ShitController.delShit(id:Long)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /public/*file               controllers.Assets.versioned(path="/public", file: Asset)
