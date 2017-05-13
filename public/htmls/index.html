@@ -26,7 +26,7 @@
 
 				<br>
 				<div v-for="task in tasks" style="margin-bottom: 5px;">
-					<div class="input-group">
+					<div v-if="!task.category" class="input-group">
 						<span class="input-group-btn">
 							<button class="btn btn-info" type="button" v-on:click="deleteTask(task.id)"><i class="fa fa-check" aria-hidden="true"></i></button>
 						</span>
@@ -39,6 +39,24 @@
 						</span>
 					</div>
 				</div>
+
+                <div v-for="category in categories">
+                    <h2>{{ category }}</h2>
+                    <div v-for="task in tasks" style="margin-bottom: 5px;">
+                        <div v-if="task.category==category" class="input-group">
+                            <span class="input-group-btn">
+							<button class="btn btn-info" type="button" v-on:click="deleteTask(task.id)"><i class="fa fa-check" aria-hidden="true"></i></button>
+						</span>
+
+                            <input type="text" class="form-control" :disabled="task.done===true" v-model="task.name" v-on:keyup.enter="updateTask(task)">
+
+                            <span class="input-group-btn">
+							<button class="btn btn-info" type="button" v-on:click="updateTask(task)"><i class="fa fa-edit" aria-hidden="true"></i></button>
+							<button class="btn btn-danger" type="button" v-on:click="deleteTask(task.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+						</span>
+                        </div>
+                    </div>
+                </div>
 			</div>
 		</div>
 	</div>

@@ -1,15 +1,24 @@
+function distinct(x,y) {
+    if (y.category in x || !y.category) {
+        return x;
+    }
+    return x.concat([y.category]);
+}
+
 (function(Vue) {
     new Vue({
         el: 'body',
 
         data: {
             tasks: [],
+            categories: [],
             newTask: {}
         },
 
         created: function() {
             this.$http.get('/api/shits').then(function(res) {
                 this.tasks = res.data ? res.data : [];
+                this.categories = res.data.reduce(distinct, []);
             });
         },
 
@@ -20,7 +29,7 @@
                     return;
                 };
 
-                var lines = this.newTask.name.split("-");
+                var lines = this.newTask.name.split(/[\:\-\/\\]/);
                 if (lines.length > 1 ) {
                     this.newTask.category = lines[0];
                     this.newTask.name = this.newTask.name.slice(lines[0].length + 1, this.newTask.name.length);
@@ -33,6 +42,7 @@
                 this.$http.post('/api/addShit',this.newTask).success(function(res) {
                     this.$http.get('/api/shits').then(function(res) {
                         this.tasks = res.data ? res.data : [];
+                        this.categories = res.data.reduce(distinct, [])
                     });
                 }).error(function(err) {
                     console.log(err);
@@ -43,6 +53,7 @@
                 this.$http.delete('/api/delShit/' + index).success(function(res) {
                     this.$http.get('/api/shits').then(function(res) {
                         this.tasks = res.data ? res.data : [];
+                        this.categories = res.data.reduce(distinct, [])
                     });
                 }).error(function(err) {
                     console.log(err);
@@ -53,6 +64,7 @@
                 this.$http.post('/api/editShit/' + task.id, task).success(function(res) {
                     this.$http.get('/api/shits').then(function(res) {
                         this.tasks = res.data ? res.data : [];
+                        this.categories = res.data.reduce(distinct, [])
                     });
                 }).error(function(err) {
                     console.log(err);
