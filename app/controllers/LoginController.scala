@@ -20,9 +20,20 @@ class LoginController @Inject()(loginDao: LoginDao) extends Controller {
     )(CreateLoginForm.apply)(CreateLoginForm.unapply)
   }
 
+  val registerFormat: Form[CreateRegisterForm] = Form {
+    mapping(
+      "name" -> nonEmptyText,
+      "password" -> nonEmptyText,
+      "repeat" -> nonEmptyText,
+      "email" -> nonEmptyText
+    )(CreateRegisterForm.apply)(CreateRegisterForm.unapply)
+  }
+
   def login = Action {
     Redirect(routes.Assets.versioned("htmls/login.html"))
   }
+
+  def doRegister = ???
 
   def doLogin = Action.async { implicit request =>
     loginFormat.bindFromRequest.fold(
@@ -41,3 +52,5 @@ class LoginController @Inject()(loginDao: LoginDao) extends Controller {
 }
 
 case class CreateLoginForm(name: String, password: String)
+
+case class CreateRegisterForm(name: String, password: String, repeat: String, email: String)
