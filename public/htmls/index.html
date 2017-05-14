@@ -10,6 +10,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js"></script>
+    <script type="text/javascript" src="/public/javascripts/vue-strap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.0/vue-resource.min.js"></script>
 </head>
 <body>
@@ -31,10 +32,10 @@
 							<button class="btn btn-info" type="button" v-on:click="deleteTask(task.id)"><i class="fa fa-check" aria-hidden="true"></i></button>
 						</span>
 
-						<input type="text" class="form-control" :disabled="task.done===true" v-model="task.name" v-on:keyup.enter="updateTask(task)">
+						<input type="text" class="form-control"  v-model="task.name" v-on:keyup.enter="updateTask(task)">
 
 						<span class="input-group-btn">
-							<button class="btn btn-info" type="button" v-on:click="updateTask(task)"><i class="fa fa-edit" aria-hidden="true"></i></button>
+							<button class="btn btn-info" type="button" v-on:click="showDetail()"><i class="fa fa-edit" aria-hidden="true"></i></button>
 							<button class="btn btn-danger" type="button" v-on:click="deleteTask(task.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 						</span>
 					</div>
@@ -48,10 +49,10 @@
 							<button class="btn btn-info" type="button" v-on:click="deleteTask(task.id)"><i class="fa fa-check" aria-hidden="true"></i></button>
 						</span>
 
-                            <input type="text" class="form-control" :disabled="task.done===true" v-model="task.name" v-on:keyup.enter="updateTask(task)">
+                            <input type="text" class="form-control" v-model="task.name" v-on:keyup.enter="updateTask(task)">
 
                             <span class="input-group-btn">
-							<button class="btn btn-info" type="button" v-on:click="updateTask(task)"><i class="fa fa-edit" aria-hidden="true"></i></button>
+							<button class="btn btn-info" type="button" v-on:click="showDetail()"><i class="fa fa-edit" aria-hidden="true"></i></button>
 							<button class="btn btn-danger" type="button" v-on:click="deleteTask(task.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 						</span>
                         </div>
@@ -61,6 +62,15 @@
 		</div>
 	</div>
 
+<aside :show.sync="isEdited" placement="right" header="Detail" width="600">
+
+    <br/>
+
+    <div class="aside-footer">
+        <button type="button" class="btn btn-default">Save</button>
+        <button type="button" class="btn btn-default" @click="isEdited=false">Close</button>
+    </div>
+</aside>
 <script type="text/javascript" src="/public/javascripts/app.js"></script>
 </body>
 </html>

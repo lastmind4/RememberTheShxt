@@ -7,12 +7,17 @@ function distinct(x,y) {
 
 (function(Vue) {
     new Vue({
+        components: {
+            aside: VueStrap.aside
+        },
+
         el: 'body',
 
         data: {
             tasks: [],
             categories: [],
-            newTask: {}
+            newTask: {},
+            isEdited: false,
         },
 
         created: function() {
@@ -23,6 +28,10 @@ function distinct(x,y) {
         },
 
         methods: {
+            showDetail : function(){
+                this.$set('isEdited',true);
+            },
+
             createTask: function() {
                 if (!$.trim(this.newTask.name)) {
                     this.newTask = {};
