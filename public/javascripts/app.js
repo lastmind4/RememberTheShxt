@@ -1,5 +1,5 @@
 function distinct(x,y) {
-    if (y.category in x || !y.category) {
+    if (x.indexOf(y.category) > -1 || !y.category) {
         return x;
     }
     return x.concat([y.category]);
