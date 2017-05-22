@@ -30,7 +30,7 @@ function distinct(x,y) {
 
         methods: {
             showDetail : function(task){
-                this.$set('isEdited',true);
+                this.$set('isEdited', true);
                 this.t = {"id":task.id, "name":task.name, "category": task.category, "comment": task.comment};
             },
 
