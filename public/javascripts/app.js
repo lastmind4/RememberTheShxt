@@ -14,6 +14,7 @@ function distinct(x,y) {
         el: 'body',
 
         data: {
+            t: {},
             tasks: [],
             categories: [],
             newTask: {},
@@ -28,8 +29,9 @@ function distinct(x,y) {
         },
 
         methods: {
-            showDetail : function(){
+            showDetail : function(task){
                 this.$set('isEdited',true);
+                this.t = {"id":task.id, "name":task.name, "category": task.category, "comment": task.comment};
             },
 
             createTask: function() {

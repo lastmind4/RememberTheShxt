@@ -34,7 +34,7 @@
 						<input type="text" class="form-control"  v-model="task.name" v-on:keyup.enter="updateTask(task)">
 
 						<span class="input-group-btn">
-							<button class="btn btn-info" type="button" v-on:click="showDetail()"><i class="fa fa-edit" aria-hidden="true"></i></button>
+							<button class="btn btn-info" type="button" v-on:click="showDetail(task)"><i class="fa fa-edit" aria-hidden="true"></i></button>
 							<button class="btn btn-danger" type="button" v-on:click="deleteTask(task.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 						</span>
 					</div>
@@ -51,7 +51,7 @@
                             <input type="text" class="form-control" v-model="task.name" v-on:keyup.enter="updateTask(task)">
 
                             <span class="input-group-btn">
-							<button class="btn btn-info" type="button" v-on:click="showDetail()"><i class="fa fa-edit" aria-hidden="true"></i></button>
+							<button class="btn btn-info" type="button" v-on:click="showDetail(task)"><i class="fa fa-edit" aria-hidden="true"></i></button>
 							<button class="btn btn-danger" type="button" v-on:click="deleteTask(task.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 						</span>
                         </div>
@@ -61,15 +61,35 @@
 		</div>
 	</div>
 
-<aside :show.sync="isEdited" placement="right" header="Detail" width="600">
+    <aside :show.sync="isEdited" placement="right" header="Detail" width="600">
+            <form>
+                <div class="control-group">
+                    <input hidden path="id" value="{{ t.id }}"/>
+                    <label class="control-label">Name:</label>
+                    <div class="controls">
+                        <input class="required" v-model="t.name" value="{{ t.name }}"/>
+                    </div>
+                    <br/>
+                    <label class="control-label">Category:</label>
+                    <div class="controls">
+                        <input v-model="t.category" value="{{ t.category }}"/>
+                    </div>
+                    <br/>
+                    <label class="control-label">Comment:</label>
+                    <div class="controls">
+                        <input v-model="t.comment" value="{{ t.comment }}"/>
+                    </div>
+                </div>
+            </form>
 
-    <br/>
+        <br/>
 
-    <div class="aside-footer">
-        <button type="button" class="btn btn-default">Save</button>
-        <button type="button" class="btn btn-default" @click="isEdited=false">Close</button>
-    </div>
-</aside>
+        <div class="aside-footer">
+            <button type="button" class="btn btn-default" v-on:click="updateTask(t)" @click="isEdited=false">Save</button>
+            <button type="button" class="btn btn-default" @click="isEdited=false">Close</button>
+        </div>
+    </aside>
+
 <script type="text/javascript" src="/public/javascripts/app.js"></script>
 </body>
 </html>
