@@ -7,6 +7,7 @@
 GET     /                           controllers.ShitController.index
 GET     /login                      controllers.LoginController.login
 POST    /login                      controllers.LoginController.doLogin
+GET     /logout                     controllers.LoginController.logout
 
 ## REST API
 GET     /api/shits                  controllers.ShitController.getShits
